@@ -18,6 +18,13 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
+        <!-- JInterop logging configuration -->
+        <!-- Declared as optional since not all webapps will need the JInteropLoggingListener -->
+        <dependency>
+            <groupId>j-interop</groupId>
+            <artifactId>j-interop</artifactId>
+            <optional>true</optional>
+        </dependency>
         <!-- JEE -->
         <dependency>
             <groupId>javax.servlet</groupId>
