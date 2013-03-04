@@ -7,3 +7,4 @@ catalina.base_IS_UNDEFINED
 .classpath
 test-output
 *~
+velocity.log
