@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.net.HttpHeaders;
+
 /**
  * Adds the required headers to the response to allow Cross-Origin Resource Sharing.
  * 
@@ -69,7 +72,13 @@ public abstract class BaseCORSFilter implements Filter
             res.addHeader(ACCESS_CREDENTIALS_CORS_HEADER, String.valueOf(allowCredentials()));
 
             List<String> allowedHeaders = allowedHeaders();
-            if (allowedHeaders != null && !allowedHeaders().isEmpty())
+            if (allowCredentials())
+            {
+                allowedHeaders =
+                    ImmutableList.<String> builder().addAll(allowedHeaders)
+                        .add(HttpHeaders.AUTHORIZATION).build();
+            }
+            if (allowedHeaders != null && !allowedHeaders.isEmpty())
             {
                 StringBuilder sb = new StringBuilder();
                 for (Iterator<String> it = allowedHeaders.iterator(); it.hasNext();)
