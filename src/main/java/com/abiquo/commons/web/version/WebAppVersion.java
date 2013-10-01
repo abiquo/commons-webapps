@@ -83,10 +83,8 @@ public class WebAppVersion
         final String resourceFile = formatResourceFilePath(servletContext);
         Properties versionProperties = new Properties();
 
-        try
+        try (InputStream inputStream = servletContext.getResourceAsStream(resourceFile))
         {
-            InputStream inputStream = servletContext.getResourceAsStream(resourceFile);
-
             if (inputStream == null)
             {
                 throw new IllegalStateException(format("The resource file '%s' could not be found",
@@ -101,15 +99,15 @@ public class WebAppVersion
                 resourceFile));
         }
 
-        String version = versionProperties.getProperty(VERSION_PROPERTY_NAME);
+        String ver = versionProperties.getProperty(VERSION_PROPERTY_NAME);
 
-        if (version == null)
+        if (ver == null)
         {
             throw new IllegalStateException(format(
                 "The resource property '%s' could not be loaded", VERSION_PROPERTY_NAME));
         }
 
-        return version;
+        return ver;
     }
 
     private String formatResourceFilePath(final ServletContext servletContext)
