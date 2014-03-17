@@ -25,6 +25,7 @@ import org.apache.zookeeper.Watcher.Event.EventType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.abiquo.commons.web.ClusterConstants;
 import com.netflix.curator.RetryLoop;
 import com.netflix.curator.framework.CuratorFramework;
 import com.netflix.curator.framework.CuratorFrameworkFactory;
@@ -53,8 +54,7 @@ public abstract class LeadElectionContextListener implements ServletContextListe
      * Connection to ZooKeeper server. Property not set indicate non-distributed API
      * {@link LeadElectionContextListener#isDistributed()}.
      */
-    private final static String ZK_SERVER = getProperty("abiquo.api.zk."//
-        + "serverConnection"); // localhost:2181
+    private final static String ZK_SERVER = getProperty(ClusterConstants.ZK_SERVER); // localhost:2181
 
     /** Tune {@link CuratorFrameworkFactory}. Session timeout */
     private static final int ZK_SESSION_TIMEOUT_MS = valueOf(getProperty("abiquo.api.zk."
