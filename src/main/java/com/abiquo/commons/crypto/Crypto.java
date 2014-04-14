@@ -8,6 +8,7 @@ package com.abiquo.commons.crypto;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Strings.nullToEmpty;
+import static java.lang.Boolean.getBoolean;
 import static java.util.Objects.requireNonNull;
 
 import java.io.File;
@@ -49,9 +50,7 @@ public class Crypto
         try
         {
             StringBuilder tmp = new StringBuilder();
-            boolean encrypt =
-                Boolean.valueOf(System.getProperty("abiquo.security.encrypt", "false"));
-            if (encrypt)
+            if (getBoolean("abiquo.security.encrypt"))
             {
                 CharSource source =
                     Files.asCharSource(new File("/etc/abiquo/.store"), StandardCharsets.UTF_8);
