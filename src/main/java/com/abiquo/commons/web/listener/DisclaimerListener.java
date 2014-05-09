@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -45,7 +46,7 @@ public class DisclaimerListener implements ServletContextListener
                     String output =
                         printWebappName(cloudify(line), sce.getServletContext()
                             .getServletContextName());
-
+                    output = printYear(line);
                     LOGGER.info(output);
                 }
             }
@@ -93,6 +94,12 @@ public class DisclaimerListener implements ServletContextListener
     private String cloudify(final String line)
     {
         return line.replaceAll("\\*", "\u2601");
+    }
+
+    private String printYear(final String line)
+    {
+        return line.replaceAll("\\{year\\}",
+            String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
     }
 
 }
