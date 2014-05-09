@@ -44,9 +44,8 @@ public class DisclaimerListener implements ServletContextListener
                 while ((line = reader.readLine()) != null)
                 {
                     String output =
-                        printWebappName(cloudify(line), sce.getServletContext()
+                        printWebappName(cloudify(printYear(line)), sce.getServletContext()
                             .getServletContextName());
-                    output = printYear(line);
                     LOGGER.info(output);
                 }
             }
