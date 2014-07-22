@@ -30,6 +30,8 @@ public abstract class AbstractCheckServlet extends HttpServlet
 {
     public static final String DATACENTER_ID = getProperty("abiquo.datacenter.id");
 
+    public static final String DATACENTER_UUID_MEDIA_TYPE = "text/vnd.abiquo.datacenteruuid";
+
     /** The logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCheckServlet.class);
 
@@ -63,7 +65,14 @@ public abstract class AbstractCheckServlet extends HttpServlet
         {
             if (check())
             {
-                success(resp, getDatacenterUuid());
+                if (hasDatacenterUuidMediaType(req))
+                {
+                    successAndReturnUuid(req, resp, getDatacenterUuid());
+                }
+                else
+                {
+                    successAndSpecificReturn(req, resp, getDatacenterUuid());
+                }
             }
             else
             {
@@ -73,21 +82,34 @@ public abstract class AbstractCheckServlet extends HttpServlet
         catch (Exception ex)
         {
             LOGGER.warn("Check operation failed");
-            fail(resp, ex.getMessage());
+            fail(resp, ex);
         }
+    }
+
+    /**
+     * Returns a {@link HttpServletResponse#SC_OK} HTTP code indicating that the Remote Service is
+     * available. Fills the body with the datacenter id.
+     * 
+     * @param resp The Response.
+     */
+    protected void successAndReturnUuid(final HttpServletRequest req,
+        final HttpServletResponse resp, final String datacenterId) throws IOException
+    {
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setContentType(DATACENTER_UUID_MEDIA_TYPE);
+        resp.getWriter().write(datacenterId);
     }
 
     /**
      * Returns a {@link HttpServletResponse#SC_OK} HTTP code indicating that the Remote Service is
      * available.
      * 
-     * @param resp The Response.
+     * @throws IOException
      */
-    protected void success(final HttpServletResponse resp, final String datacenterId)
-        throws IOException
+    protected void successAndSpecificReturn(final HttpServletRequest req,
+        final HttpServletResponse resp, final String datacenterId) throws IOException
     {
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().write(datacenterId);
+        successAndReturnUuid(req, resp, datacenterId);
     }
 
     /**
@@ -110,9 +132,9 @@ public abstract class AbstractCheckServlet extends HttpServlet
      * @param msg The details of the check failure.
      * @throws If error code cannot be sent.
      */
-    protected void fail(final HttpServletResponse resp, final String msg) throws IOException
+    protected void fail(final HttpServletResponse resp, final Exception ex) throws IOException
     {
-        resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, msg);
+        resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, ex.getMessage());
     }
 
     @Override
@@ -120,5 +142,10 @@ public abstract class AbstractCheckServlet extends HttpServlet
         throws ServletException, IOException
     {
         doGet(req, resp);
+    }
+
+    private static boolean hasDatacenterUuidMediaType(final HttpServletRequest request)
+    {
+        return DATACENTER_UUID_MEDIA_TYPE.equals(request.getHeader("accept"));
     }
 }
