@@ -19,5 +19,7 @@ public interface CORSConstants
 
     public static final String ACCESS_HEADERS_CORS_HEADER = "Access-Control-Allow-Headers";
 
+    public static final String ACCESS_EXPOSE_CORS_HEADER = "Access-Control-Expose-Headers";
+
     public static final String ACCESS_METHODS_CORS_HEADER = "Access-Control-Allow-Methods";
 }
