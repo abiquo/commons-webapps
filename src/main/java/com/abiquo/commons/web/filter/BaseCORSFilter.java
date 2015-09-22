@@ -7,12 +7,14 @@
 package com.abiquo.commons.web.filter;
 
 import static com.abiquo.commons.web.CORSConstants.ACCESS_CREDENTIALS_CORS_HEADER;
+import static com.abiquo.commons.web.CORSConstants.ACCESS_EXPOSE_CORS_HEADER;
 import static com.abiquo.commons.web.CORSConstants.ACCESS_HEADERS_CORS_HEADER;
 import static com.abiquo.commons.web.CORSConstants.ACCESS_ORIGIN_CORS_HEADER;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -48,6 +50,14 @@ public abstract class BaseCORSFilter implements Filter
      */
     protected abstract List<String> allowedHeaders();
 
+    /**
+     * Return a list of exposed headers in CORS requests.
+     */
+    protected List<String> exposedHeaders()
+    {
+        return Collections.emptyList();
+    }
+
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException
     {
@@ -80,17 +90,15 @@ public abstract class BaseCORSFilter implements Filter
             }
             if (allowedHeaders != null && !allowedHeaders.isEmpty())
             {
-                StringBuilder sb = new StringBuilder();
-                for (Iterator<String> it = allowedHeaders.iterator(); it.hasNext();)
-                {
-                    sb.append(it.next());
-                    if (it.hasNext())
-                    {
-                        sb.append(", ");
-                    }
-                }
+                res.addHeader(ACCESS_HEADERS_CORS_HEADER,
+                    allowedHeaders.stream().collect(Collectors.joining(", ")));
+            }
 
-                res.addHeader(ACCESS_HEADERS_CORS_HEADER, sb.toString());
+            List<String> exposedHeaders = exposedHeaders();
+            if (exposedHeaders != null && !exposedHeaders.isEmpty())
+            {
+                res.addHeader(ACCESS_EXPOSE_CORS_HEADER,
+                    exposedHeaders.stream().collect(Collectors.joining(", ")));
             }
         }
     }
