@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <parent>
         <groupId>com.abiquo</groupId>
         <artifactId>platform</artifactId>
         <version>4.0.0</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>commons-webapps</artifactId>
     <name>Commons Webapps</name>
-
     <dependencies>
         <!-- Disclaimer pretty pring -->
         <dependency>
@@ -48,8 +45,9 @@
         </dependency>
         <!-- DISTRIBUTED MODE deps -->
         <dependency>
-            <groupId>com.netflix.curator</groupId>
+            <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
+            <version>2.12.0</version>
             <optional>true</optional>
         </dependency>
         <!-- Crypto -->
@@ -65,13 +63,13 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.netflix.curator</groupId>
+            <groupId>org.apache.curator</groupId>
             <artifactId>curator-test</artifactId>
+            <version>2.12.0</version>
             <optional>true</optional>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
