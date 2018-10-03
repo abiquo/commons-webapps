@@ -6,12 +6,16 @@
  */
 package com.abiquo.commons.web.listener;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Strings.nullToEmpty;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -42,8 +46,8 @@ public class DisclaimerListener implements ServletContextListener
                 String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
                 while ((line = reader.readLine()) != null)
                 {
-                    String output = printWebappName(cloudify(printYear(line, year)),
-                        sce.getServletContext().getServletContextName());
+                    String output =
+                        printWebappName(cloudify(printYear(line, year)), sce.getServletContext());
 
                     LOGGER.info(output);
                 }
@@ -75,8 +79,11 @@ public class DisclaimerListener implements ServletContextListener
 
     }
 
-    private String printWebappName(final String line, final String name)
+    private String printWebappName(final String line, final ServletContext servletContext)
     {
+        final String name = firstNonNull(nullToEmpty(servletContext.getServletContextName()),
+            servletContext.getContextPath());
+
         if (name.length() > NAME_HOLDER.length())
         {
             return line.replaceAll(NAME_HOLDER,
