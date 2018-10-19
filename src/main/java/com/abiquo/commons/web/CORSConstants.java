@@ -11,7 +11,7 @@ package com.abiquo.commons.web;
  * 
  * @author Ignasi Barrera
  */
-public interface CORSConstants
+public class CORSConstants
 {
     public static final String ACCESS_ORIGIN_CORS_HEADER = "Access-Control-Allow-Origin";
 

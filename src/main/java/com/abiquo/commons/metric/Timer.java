@@ -17,8 +17,7 @@ import org.slf4j.Logger;
 import com.google.common.base.Joiner;
 
 /**
- * Measure the time to take an action and report *the elapsed milliseconds* as a Nimrod gauge log
- * event
+ * Measure the time to take an action and report *the elapsed milliseconds* as a Nimrod gauge log event
  * <p>
  * <a href="https//:github.com/sbtourist/nimrod>Nimrod</a>
  */

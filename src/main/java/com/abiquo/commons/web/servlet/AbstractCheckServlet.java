@@ -21,8 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Base implementation of the Check Servlet.
  * <p>
- * Each Remote Service in the platform must implement its own <code>CheckServlet</code> to let
- * consumers test its availability.
+ * Each Remote Service in the platform must implement its own <code>CheckServlet</code> to let consumers test its availability.
  * 
  * @author ibarrera
  */
@@ -87,8 +86,7 @@ public abstract class AbstractCheckServlet extends HttpServlet
     }
 
     /**
-     * Returns a {@link HttpServletResponse#SC_OK} HTTP code indicating that the Remote Service is
-     * available. Fills the body with the datacenter id.
+     * Returns a {@link HttpServletResponse#SC_OK} HTTP code indicating that the Remote Service is available. Fills the body with the datacenter id.
      * 
      * @param resp The Response.
      */
@@ -101,8 +99,7 @@ public abstract class AbstractCheckServlet extends HttpServlet
     }
 
     /**
-     * Returns a {@link HttpServletResponse#SC_OK} HTTP code indicating that the Remote Service is
-     * available.
+     * Returns a {@link HttpServletResponse#SC_OK} HTTP code indicating that the Remote Service is available.
      * 
      * @throws IOException
      */
@@ -113,8 +110,7 @@ public abstract class AbstractCheckServlet extends HttpServlet
     }
 
     /**
-     * Returns a {@link HttpServletResponse#SC_SERVICE_UNAVAILABLE} HTTP code indicating that the
-     * Remote Service is not available.
+     * Returns a {@link HttpServletResponse#SC_SERVICE_UNAVAILABLE} HTTP code indicating that the Remote Service is not available.
      * 
      * @param resp The Response.
      * @throws If error code cannot be sent.
@@ -125,8 +121,7 @@ public abstract class AbstractCheckServlet extends HttpServlet
     }
 
     /**
-     * Returns a {@link HttpServletResponse#SC_SERVICE_UNAVAILABLE} HTTP code indicating that the
-     * Remote Service is not available.
+     * Returns a {@link HttpServletResponse#SC_SERVICE_UNAVAILABLE} HTTP code indicating that the Remote Service is not available.
      * 
      * @param resp The Response.
      * @param msg The details of the check failure.

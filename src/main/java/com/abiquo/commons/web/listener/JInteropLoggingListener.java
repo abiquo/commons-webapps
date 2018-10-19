@@ -16,8 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Sets the logging level for the <code>J-Interop</code> framework manually, as the
- * SLF4jBridgeHandler does not work.
+ * Sets the logging level for the <code>J-Interop</code> framework manually, as the SLF4jBridgeHandler does not work.
  * 
  * @author ibarrera
  */

@@ -29,37 +29,35 @@ import org.slf4j.LoggerFactory;
 import com.abiquo.commons.web.ClusterConstants;
 
 /**
- * Check for node distribution to directly use the {@link AMQPConsumersService} or delegate it to
- * the cluster leader notification.
+ * Check for node distribution to directly use the {@link AMQPConsumersService} or delegate it to the cluster leader notification.
  */
-public abstract class LeadElectionContextListener extends LeaderSelectorListenerAdapter implements
-    ServletContextListener
+public abstract class LeadElectionContextListener extends LeaderSelectorListenerAdapter
+    implements ServletContextListener
 
 {
     /** Tune {@link CuratorFrameworkFactory}. Connection timeout */
-    private static final int ZK_CONNECTION_TIMEOUT_MS = valueOf(getProperty("abiquo.api.zk."
-        + "connectionTimeoutMs", "15000")); // 1sec
+    private static final int ZK_CONNECTION_TIMEOUT_MS =
+        valueOf(getProperty("abiquo.api.zk." + "connectionTimeoutMs", "15000")); // 1sec
 
     /** Tune {@link CuratorFrameworkFactory}. Num or retries on zk operation */
-    private static final int ZK_RETRIES = valueOf(getProperty("abiquo.api.zk."
-        + "connectionRetries", "10")); // 10times
+    private static final int ZK_RETRIES =
+        valueOf(getProperty("abiquo.api.zk." + "connectionRetries", "10")); // 10times
 
     /**
-     * Connection to ZooKeeper server. Property not set indicate non-distributed API
-     * {@link LeadElectionContextListener#isDistributed()}.
+     * Connection to ZooKeeper server. Property not set indicate non-distributed API {@link LeadElectionContextListener#isDistributed()}.
      */
     private final static String ZK_SERVER = getProperty(ClusterConstants.ZK_SERVER); // localhost:2181
 
     /** Tune {@link CuratorFrameworkFactory}. Session timeout */
-    private static final int ZK_SESSION_TIMEOUT_MS = valueOf(getProperty("abiquo.api.zk."
-        + "sessionTimeoutMs", "15000")); // 15sec
+    private static final int ZK_SESSION_TIMEOUT_MS =
+        valueOf(getProperty("abiquo.api.zk." + "sessionTimeoutMs", "15000")); // 15sec
 
     /** Tune {@link CuratorFrameworkFactory}. Ms to sleep between retries. */
-    private static final int ZK_SLEEP_MS_BETWEEN_RETRIES = valueOf(getProperty("abiquo.api.zk."
-        + "sleepMsBetweenRetries", "5000")); // 1sec
+    private static final int ZK_SLEEP_MS_BETWEEN_RETRIES =
+        valueOf(getProperty("abiquo.api.zk." + "sleepMsBetweenRetries", "5000")); // 1sec
 
-    protected static final Logger LOGGER = LoggerFactory
-        .getLogger(LeadElectionContextListener.class);
+    protected static final Logger LOGGER =
+        LoggerFactory.getLogger(LeadElectionContextListener.class);
 
     /** Check node configuration to know if participates in a cluster. */
     private final static boolean isDistributed()
@@ -76,8 +74,7 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
     /**
      * Called when the application starts.
      * <p>
-     * Use this method to perform initialization tasks, such as getting beans from the Spring
-     * context, and initializing class members.
+     * Use this method to perform initialization tasks, such as getting beans from the Spring context, and initializing class members.
      */
     public abstract void initializeContext(ServletContextEvent sce);
 
@@ -89,9 +86,7 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
     public abstract void onStart(ServletContextEvent sce);
 
     /**
-     * Called when the node is going to shut down. This is not going to be invoked when the node
-     * loses the leadership in a distributed environment; only when the application is manually shut
-     * down.
+     * Called when the node is going to shut down. This is not going to be invoked when the node loses the leadership in a distributed environment; only when the application is manually shut down.
      * <p>
      * Use this method to shutdown all services and release the resources.
      */
@@ -208,7 +203,7 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
     /** Connects to ZK-Server and adds as participant to {@link LeaderSelector} cluster. */
     protected void startZookeeper() throws Exception
     {
-        curatorClient = newClient(ZK_SERVER, ZK_SESSION_TIMEOUT_MS, ZK_CONNECTION_TIMEOUT_MS,//
+        curatorClient = newClient(ZK_SERVER, ZK_SESSION_TIMEOUT_MS, ZK_CONNECTION_TIMEOUT_MS, //
             new RetryNTimes(ZK_RETRIES, ZK_SLEEP_MS_BETWEEN_RETRIES));
         curatorClient.start();
 
