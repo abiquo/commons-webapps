@@ -28,9 +28,8 @@ public class DisclaimerListener implements ServletContextListener
     @Override
     public void contextInitialized(final ServletContextEvent sce)
     {
-        InputStream disclaimer =
-            Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("META-INF/DISCLAIMER");
+        InputStream disclaimer = Thread.currentThread().getContextClassLoader()
+            .getResourceAsStream("META-INF/DISCLAIMER");
 
         if (disclaimer != null)
         {
@@ -43,9 +42,8 @@ public class DisclaimerListener implements ServletContextListener
                 String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
                 while ((line = reader.readLine()) != null)
                 {
-                    String output =
-                        printWebappName(cloudify(printYear(line, year)), sce.getServletContext()
-                            .getServletContextName());
+                    String output = printWebappName(cloudify(printYear(line, year)),
+                        sce.getServletContext().getServletContextName());
 
                     LOGGER.info(output);
                 }
