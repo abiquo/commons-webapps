@@ -96,7 +96,9 @@ public class Crypto
             .toCharArray();
     }
 
-    /** Matches <code>password</code> with <code>encoded</code>. True if success, false otherwise. */
+    /**
+     * Matches <code>password</code> with <code>encoded</code>. True if success, false otherwise.
+     */
     public boolean matches(final String password, final String encoded)
     {
         if (isNullOrEmpty(password) || isNullOrEmpty(encoded))

@@ -32,17 +32,17 @@ import com.abiquo.commons.web.ClusterConstants;
  * Check for node distribution to directly use the {@link AMQPConsumersService} or delegate it to
  * the cluster leader notification.
  */
-public abstract class LeadElectionContextListener extends LeaderSelectorListenerAdapter implements
-    ServletContextListener
+public abstract class LeadElectionContextListener extends LeaderSelectorListenerAdapter
+    implements ServletContextListener
 
 {
     /** Tune {@link CuratorFrameworkFactory}. Connection timeout */
-    private static final int ZK_CONNECTION_TIMEOUT_MS = valueOf(getProperty("abiquo.api.zk."
-        + "connectionTimeoutMs", "15000")); // 1sec
+    private static final int ZK_CONNECTION_TIMEOUT_MS =
+        valueOf(getProperty("abiquo.api.zk." + "connectionTimeoutMs", "15000")); // 1sec
 
     /** Tune {@link CuratorFrameworkFactory}. Num or retries on zk operation */
-    private static final int ZK_RETRIES = valueOf(getProperty("abiquo.api.zk."
-        + "connectionRetries", "10")); // 10times
+    private static final int ZK_RETRIES =
+        valueOf(getProperty("abiquo.api.zk." + "connectionRetries", "10")); // 10times
 
     /**
      * Connection to ZooKeeper server. Property not set indicate non-distributed API
@@ -51,15 +51,15 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
     private final static String ZK_SERVER = getProperty(ClusterConstants.ZK_SERVER); // localhost:2181
 
     /** Tune {@link CuratorFrameworkFactory}. Session timeout */
-    private static final int ZK_SESSION_TIMEOUT_MS = valueOf(getProperty("abiquo.api.zk."
-        + "sessionTimeoutMs", "15000")); // 15sec
+    private static final int ZK_SESSION_TIMEOUT_MS =
+        valueOf(getProperty("abiquo.api.zk." + "sessionTimeoutMs", "15000")); // 15sec
 
     /** Tune {@link CuratorFrameworkFactory}. Ms to sleep between retries. */
-    private static final int ZK_SLEEP_MS_BETWEEN_RETRIES = valueOf(getProperty("abiquo.api.zk."
-        + "sleepMsBetweenRetries", "5000")); // 1sec
+    private static final int ZK_SLEEP_MS_BETWEEN_RETRIES =
+        valueOf(getProperty("abiquo.api.zk." + "sleepMsBetweenRetries", "5000")); // 1sec
 
-    protected static final Logger LOGGER = LoggerFactory
-        .getLogger(LeadElectionContextListener.class);
+    protected static final Logger LOGGER =
+        LoggerFactory.getLogger(LeadElectionContextListener.class);
 
     /** Check node configuration to know if participates in a cluster. */
     private final static boolean isDistributed()
@@ -70,7 +70,9 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
     /** Zk-client connected to the cluster using the ZK_SERVER connection. */
     private CuratorFramework curatorClient;
 
-    /** Zk-recipe to select one participant in the cluster. (@see {@link LeaderSelectorListener} ) */
+    /**
+     * Zk-recipe to select one participant in the cluster. (@see {@link LeaderSelectorListener} )
+     */
     protected LeaderSelector leaderSelector;
 
     /**
@@ -208,7 +210,7 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
     /** Connects to ZK-Server and adds as participant to {@link LeaderSelector} cluster. */
     protected void startZookeeper() throws Exception
     {
-        curatorClient = newClient(ZK_SERVER, ZK_SESSION_TIMEOUT_MS, ZK_CONNECTION_TIMEOUT_MS,//
+        curatorClient = newClient(ZK_SERVER, ZK_SESSION_TIMEOUT_MS, ZK_CONNECTION_TIMEOUT_MS, //
             new RetryNTimes(ZK_RETRIES, ZK_SLEEP_MS_BETWEEN_RETRIES));
         curatorClient.start();
 

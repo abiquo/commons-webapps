@@ -58,8 +58,8 @@ public class WebAppVersion
 
         if (!versionMatcher.matches())
         {
-            throw new IllegalArgumentException(format("Version '%s' did not match pattern '%s'",
-                version, VERSION_PATTERN));
+            throw new IllegalArgumentException(
+                format("Version '%s' did not match pattern '%s'", version, VERSION_PATTERN));
         }
 
         majorVersion = valueOf(versionMatcher.group(1));
@@ -87,24 +87,24 @@ public class WebAppVersion
         {
             if (inputStream == null)
             {
-                throw new IllegalStateException(format("The resource file '%s' could not be found",
-                    resourceFile));
+                throw new IllegalStateException(
+                    format("The resource file '%s' could not be found", resourceFile));
             }
 
             versionProperties.load(inputStream);
         }
         catch (IOException ex)
         {
-            throw new IllegalStateException(format("Unable to load resource file '%s'",
-                resourceFile));
+            throw new IllegalStateException(
+                format("Unable to load resource file '%s'", resourceFile));
         }
 
         String ver = versionProperties.getProperty(VERSION_PROPERTY_NAME);
 
         if (ver == null)
         {
-            throw new IllegalStateException(format(
-                "The resource property '%s' could not be loaded", VERSION_PROPERTY_NAME));
+            throw new IllegalStateException(
+                format("The resource property '%s' could not be loaded", VERSION_PROPERTY_NAME));
         }
 
         return ver;

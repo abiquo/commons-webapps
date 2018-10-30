@@ -84,9 +84,8 @@ public abstract class BaseCORSFilter implements Filter
             List<String> allowedHeaders = allowedHeaders();
             if (allowCredentials())
             {
-                allowedHeaders =
-                    ImmutableList.<String> builder().addAll(allowedHeaders)
-                        .add(HttpHeaders.AUTHORIZATION).build();
+                allowedHeaders = ImmutableList.<String> builder().addAll(allowedHeaders)
+                    .add(HttpHeaders.AUTHORIZATION).build();
             }
             if (allowedHeaders != null && !allowedHeaders.isEmpty())
             {
