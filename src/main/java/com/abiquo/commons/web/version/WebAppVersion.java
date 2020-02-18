@@ -39,6 +39,8 @@ public class WebAppVersion
 
     private static WebAppVersion instance = null;
 
+    private static String manifestResourceFile = "META-INF/MANIFEST.MF";
+
     public final String version;
 
     public final int majorVersion;
@@ -84,19 +86,7 @@ public class WebAppVersion
 
         snapshot = version.contains("-SNAPSHOT");
 
-        InputStream manifest = servletContext.getResourceAsStream("META-INF/MANIFEST.MF");
-        manifestProperties = new Properties();
-
-        if (manifest != null)
-        {
-            try
-            {
-                manifestProperties.load(manifest);
-            }
-            catch (IOException e)
-            {
-            }
-        }
+        manifestProperties = readManifestPropertiesFromClasspath(servletContext);
 
         implementationVersion =
             Optional.ofNullable(manifestProperties.getProperty("Implementation-Version"));
@@ -133,6 +123,29 @@ public class WebAppVersion
         }
 
         return ver;
+    }
+
+    private Properties readManifestPropertiesFromClasspath(final ServletContext servletContext)
+    {
+        Properties properties = new Properties();
+
+        try (InputStream inputStream = servletContext.getResourceAsStream(manifestResourceFile))
+        {
+            if (inputStream == null)
+            {
+                throw new IllegalStateException(
+                    format("The resource file '%s' could not be found", manifestResourceFile));
+            }
+
+            properties.load(inputStream);
+        }
+        catch (IOException ex)
+        {
+            throw new IllegalStateException(
+                format("Unable to load resource file '%s'", manifestResourceFile));
+        }
+
+        return properties;
     }
 
     private String formatResourceFilePath(final ServletContext servletContext)
