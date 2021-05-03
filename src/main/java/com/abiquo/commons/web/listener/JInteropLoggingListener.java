@@ -18,7 +18,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Sets the logging level for the <code>J-Interop</code> framework manually, as the
  * SLF4jBridgeHandler does not work.
- * 
+ *
+ * @see <a href=
+ *      "http://www.slf4j.org/apidocs/org/slf4j/bridge/SLF4JBridgeHandler.html">SLF4JBridgeHandler</a>
+ *      for logging level mappings.
  * @author ibarrera
  */
 public class JInteropLoggingListener implements ServletContextListener
@@ -42,10 +45,6 @@ public class JInteropLoggingListener implements ServletContextListener
             level = Level.INFO;
         }
         else if (logger.isWarnEnabled())
-        {
-            level = Level.FINER;
-        }
-        else if (logger.isDebugEnabled())
         {
             level = Level.WARNING;
         }
