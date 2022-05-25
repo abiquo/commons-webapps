@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 import com.google.common.base.Throwables;
 import com.google.common.io.CharSource;
@@ -27,7 +28,7 @@ import com.google.common.io.Files;
 
 /**
  * Utility class for encoding/decoding passwords at Abiquo.
- * 
+ *
  * @author <a href="mailto:serafin.sedano@abiquo.com">Serafin Sedano</a>
  */
 public class Crypto
@@ -41,29 +42,29 @@ public class Crypto
         return INSTANCE;
     }
 
-    private final StringBuilder pwd;
-
-    private final byte[] salt;
+    private final TextEncryptor encryptor;
 
     private Crypto()
     {
         try
         {
-            StringBuilder tmp = new StringBuilder();
+            StringBuilder pwd = new StringBuilder();
             if (getBoolean("abiquo.security.encrypt"))
             {
                 CharSource source =
                     Files.asCharSource(new File("/etc/abiquo/.store"), StandardCharsets.UTF_8);
 
-                source.copyTo(tmp);
+                source.copyTo(pwd);
             }
             else
             {
-                tmp.append("no-password");
+                pwd.append("no-password");
             }
-            pwd = tmp;
 
-            salt = StandardCharsets.UTF_8.encode(CharBuffer.wrap(tmp)).array();
+            byte[] salt = StandardCharsets.UTF_8.encode(CharBuffer.wrap(pwd)).array();
+
+            // queryableText since we need to check for duplicated in DB
+            encryptor = Encryptors.queryableText(pwd, new String(Hex.encode(salt)));
         }
         catch (FileNotFoundException n)
         {
@@ -82,7 +83,7 @@ public class Crypto
     public String encode(final String password)
     {
         requireNonNull(password, "password");
-        return Encryptors.queryableText(pwd, new String(Hex.encode(salt))).encrypt(password);
+        return encryptor.encrypt(password);
     }
 
     /**
@@ -91,9 +92,7 @@ public class Crypto
     public char[] decode(final String encoded)
     {
         requireNonNull(encoded, "encoded");
-        // queryableText since we need to check for duplicated in DB
-        return Encryptors.queryableText(pwd, new String(Hex.encode(salt))).decrypt(encoded)
-            .toCharArray();
+        return encryptor.decrypt(encoded).toCharArray();
     }
 
     /**
