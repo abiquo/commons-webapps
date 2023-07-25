@@ -127,10 +127,6 @@ public abstract class AbstractCheckServlet extends HttpServlet
     /**
      * Returns a {@link HttpServletResponse#SC_SERVICE_UNAVAILABLE} HTTP code indicating that the
      * Remote Service is not available.
-     * 
-     * @param resp The Response.
-     * @param msg The details of the check failure.
-     * @throws If error code cannot be sent.
      */
     protected void fail(final HttpServletResponse resp, final Exception ex) throws IOException
     {
