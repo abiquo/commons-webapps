@@ -103,8 +103,6 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
      * In a distributed environment, this method is invoked when the node gains the leadership.
      * <p>
      * Use this method to start the services after the node has taken the leadership.
-     * 
-     * 
      */
     public abstract void onLeadershipTaken() throws Exception;
 

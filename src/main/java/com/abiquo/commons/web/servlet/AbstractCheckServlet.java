@@ -103,8 +103,6 @@ public abstract class AbstractCheckServlet extends HttpServlet
     /**
      * Returns a {@link HttpServletResponse#SC_OK} HTTP code indicating that the Remote Service is
      * available.
-     * 
-     * 
      */
     protected void successAndSpecificReturn(final HttpServletRequest req,
         final HttpServletResponse resp, final String datacenterId) throws IOException
