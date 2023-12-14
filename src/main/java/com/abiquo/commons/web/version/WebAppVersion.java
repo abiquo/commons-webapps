@@ -6,7 +6,6 @@
  */
 package com.abiquo.commons.web.version;
 
-import static java.lang.Integer.valueOf;
 import static java.lang.String.format;
 import static java.util.regex.Pattern.compile;
 import static org.apache.commons.lang.StringUtils.EMPTY;
