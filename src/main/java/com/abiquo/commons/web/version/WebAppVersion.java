@@ -71,13 +71,13 @@ public class WebAppVersion
                 format("Version '%s' did not match pattern '%s'", version, VERSION_PATTERN));
         }
 
-        majorVersion = valueOf(versionMatcher.group(1));
-        minorVersion = valueOf(versionMatcher.group(2));
+        majorVersion = Integer.valueOf(versionMatcher.group(1));
+        minorVersion = Integer.valueOf(versionMatcher.group(2));
 
         if (versionMatcher.groupCount() > 3)
         {
             String patch = versionMatcher.group(3);
-            patchVersion = isBlank(patch) ? 0 : valueOf(patch);
+            patchVersion = isBlank(patch) ? 0 : Integer.valueOf(patch);
         }
         else
         {
