@@ -38,11 +38,11 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
 {
     /** Tune {@link CuratorFrameworkFactory}. Connection timeout */
     private static final int ZK_CONNECTION_TIMEOUT_MS =
-        valueOf(getProperty("abiquo.api.zk." + "connectionTimeoutMs", "15000")); // 1sec
+        Integer.valueOf(getProperty("abiquo.api.zk." + "connectionTimeoutMs", "15000")); // 1sec
 
     /** Tune {@link CuratorFrameworkFactory}. Num or retries on zk operation */
     private static final int ZK_RETRIES =
-        valueOf(getProperty("abiquo.api.zk." + "connectionRetries", "10")); // 10times
+        Integer.valueOf(getProperty("abiquo.api.zk." + "connectionRetries", "10")); // 10times
 
     /**
      * Connection to ZooKeeper server. Property not set indicate non-distributed API
@@ -52,11 +52,11 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
 
     /** Tune {@link CuratorFrameworkFactory}. Session timeout */
     private static final int ZK_SESSION_TIMEOUT_MS =
-        valueOf(getProperty("abiquo.api.zk." + "sessionTimeoutMs", "15000")); // 15sec
+        Integer.valueOf(getProperty("abiquo.api.zk." + "sessionTimeoutMs", "15000")); // 15sec
 
     /** Tune {@link CuratorFrameworkFactory}. Ms to sleep between retries. */
     private static final int ZK_SLEEP_MS_BETWEEN_RETRIES =
-        valueOf(getProperty("abiquo.api.zk." + "sleepMsBetweenRetries", "5000")); // 1sec
+        Integer.valueOf(getProperty("abiquo.api.zk." + "sleepMsBetweenRetries", "5000")); // 1sec
 
     protected static final Logger LOGGER =
         LoggerFactory.getLogger(LeadElectionContextListener.class);
@@ -104,7 +104,7 @@ public abstract class LeadElectionContextListener extends LeaderSelectorListener
      * <p>
      * Use this method to start the services after the node has taken the leadership.
      * 
-     * @throws Exception
+     * 
      */
     public abstract void onLeadershipTaken() throws Exception;
 
